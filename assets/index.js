@@ -1,44 +1,53 @@
-const choiceArray = ['rock', 'paper', 'scissors'];
+
+
+let choiceArray = ['rock', 'paper', 'scissors']
+let buttons = document.querySelectorAll('.choice-btn');
+let playerScoreText = document.querySelector('#player-score');
+let computerScoreText = document.querySelector('#computer-score');
+let winnerText = document.querySelector('.winner');
+let roundInfoText = document.querySelector('.round-info')
+
+//keep track of current scores
+let wins = {
+    computer: 0,
+    player: 0
+}
+//score needed to win (if user doesnt reset increases)
+let scoreToWin = 5
+
+buttons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+        let playerChoice = e.target.id
+        let computerChoice = getComputerChoice()
+        let roundInfo = playRound(playerChoice, computerChoice)
+        let { message, winner } = roundInfo
+        //Show winner
+        roundInfoText.textContent = `${message}`
+        roundInfoText.classList.remove('hide')
+        //Update score
+        wins[winner.toLowerCase()] += 1
+        playerScoreText.textContent = `Player: ${wins.player}`
+        computerScoreText.textContent = `Computer: ${wins.computer}`
+        //Check to see if 5 score reached
+        if (wins[winner.toLowerCase()] == scoreToWin) {
+            winnerText.textContent = `${winner} Wins!`
+            winnerText.classList.remove('hide');
+
+
+            setTimeout(() => {
+                resetGame();
+            }, 1000)
+        }
+    })
+})
 
 function getComputerChoice() {
     let randomNumber = Math.floor(Math.random() * 3);
     return choiceArray[randomNumber];
 }
 
-function getPlayerChoice() {
-    let playerChoice = prompt('Rock, Paper, or Scissors?');
-    let formattedChoice = playerChoice.toLowerCase();
-    if (!choiceArray.includes(formattedChoice)) {
-        getPlayerChoice()
-    } else {
-        return formattedChoice;
-    }
-}
-
-function playRound() {
-    let computerChoice = getComputerChoice();
-    let playerChoice = getPlayerChoice();
-    return runGameLogic(playerChoice, computerChoice)
-}
-
-function game() {
-    let wins = {
-        computer: 0,
-        player: 0
-    }
-
-    for (let i = 0; i < 5; i++) {
-        let roundInfo = playRound()
-        let { message, winner } = roundInfo
-        if (winner !== 'null') {
-            wins[winner]++
-            console.log(message)
-        } else {
-            console.log(message)
-        }
-        console.log(wins)
-
-    }
+function playRound(pChoice, cChoice) {
+    return runGameLogic(pChoice, cChoice)
 }
 
 function runGameLogic(playerChoice, computerChoice) {
@@ -47,17 +56,17 @@ function runGameLogic(playerChoice, computerChoice) {
             if (computerChoice == 'rock') {
                 return { message: 'It\s a Draw!', winner: 'null' }
             } else if (computerChoice == 'scissors') {
-                return { message: `You Win! ${playerChoice} beats ${computerChoice}!`, winner: 'player' }
+                return { message: `You Win! ${playerChoice} beats ${computerChoice}!`, winner: 'Player' }
 
             } else if (computerChoice == 'paper') {
-                return { message: `You Lose! ${computerChoice} beats ${playerChoice}`, winner: 'computer' }
+                return { message: `You Lose! ${computerChoice} beats ${playerChoice}`, winner: 'Computer' }
             }
             break;
         case 'paper':
             if (computerChoice == 'rock') {
-                return { message: `You Win! ${playerChoice} beats ${computerChoice}!`, winner: 'player' }
+                return { message: `You Win! ${playerChoice} beats ${computerChoice}!`, winner: 'Player' }
             } else if (computerChoice == 'scissors') {
-                return { message: `You Lose! ${computerChoice} beats ${playerChoice}`, winner: 'computer' }
+                return { message: `You Lose! ${computerChoice} beats ${playerChoice}`, winner: 'Computer' }
 
             } else if (computerChoice == 'paper') {
                 return { message: 'It\s a Draw!', winner: 'null' }
@@ -65,17 +74,35 @@ function runGameLogic(playerChoice, computerChoice) {
             break;
         case 'scissors':
             if (computerChoice == 'rock') {
-                return { message: `You Lose! ${computerChoice} beats ${playerChoice}`, winner: 'computer' }
+                return { message: `You Lose! ${computerChoice} beats ${playerChoice}`, winner: 'Computer' }
             } else if (computerChoice == 'scissors') {
-                return { message: 'It\s a Draw!', winner: 'null' }
+                return { message: 'It\s a Draw!', winner: 'Draw' }
 
             } else if (computerChoice == 'paper') {
-                return { message: `You Win! ${playerChoice} beats ${computerChoice}!`, winner: 'player' }
+                return { message: `You Win! ${playerChoice} beats ${computerChoice}!`, winner: 'Player' }
             }
             break;
 
         default:
             return 'Invalid Choice'
             break;
+    }
+}
+
+function resetGame() {
+    let userAnswer = prompt('Do you want to reset the game? y/n')
+    if (userAnswer == 'y') {
+        wins.player = 0
+        wins.computer = 0
+        roundInfoText.classList.add('hide')
+        winnerText.classList.add('hide')
+        playerScoreText.textContent = `Player: ${wins.player}`
+        computerScoreText.textContent = `Computer: ${wins.computer}`
+    } else if( userAnswer == 'n') {
+        scoreToWin = scoreToWin + 5
+        winnerText.classList.add('hide')
+        roundInfoText.classList.add('hide')
+    } else {
+        resetGame()
     }
 }

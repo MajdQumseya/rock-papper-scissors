@@ -1,0 +1,89 @@
+html, body, .main-container {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family:'Roboto', sans-serif ;
+    background-image: url('./images/battle-scene.jpeg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.hide {
+    display: none;
+}
+
+#red {
+    color: crimson;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.score-container {
+    display: flex;
+    gap: 12px;
+}
+
+.vs-logo {
+    height: 50px;
+    width: 60px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+   
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10%;
+}
+
+.choice-btn {
+    width: 120px;
+    height: 120px;
+    font-size: 28px;
+    margin:  0 16px;
+    border: 0;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    color: crimson;
+    font-weight: 600;
+}
+
+.choice-btn:hover {
+    width: 130px;
+    height: 130px;
+    border: 5px crimson solid;
+    cursor: pointer;
+}
+
+#rock {
+    background: url('./images/rock.jpeg') ;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#paper {
+    background: url('./images/paper.jpeg') ;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#scissors {
+    background: url('./images/scissors.jpeg') ;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
